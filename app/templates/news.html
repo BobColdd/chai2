@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Tea News — Chai Yako{% endblock %}
+
+{% block head %}
+<style>
+.news-toolbar { display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between; margin-bottom:20px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="topbar">
+  <div class="greeting">
+    <h1>📰 Tea News & Market Updates</h1>
+    <p>Latest headlines on Kenyan tea prices, KTDA, and East African tea farming.</p>
+  </div>
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline btn-sm">← Back to dashboard</a>
+</div>
+
+{% if featured or articles %}
+
+<div class="news-toolbar">
+  <div class="tabs" id="tabRow">
+    {% for c in categories %}
+      <button type="button" class="tab-btn {% if loop.first %}active{% endif %}" data-cat="{{ c }}" onclick="filterNews('{{ c }}', this)">{{ c }}</button>
+    {% endfor %}
+  </div>
+  <div class="news-search">
+    <span class="icon">🔎</span>
+    <input type="text" id="newsSearch" placeholder="Search headlines..." oninput="filterNews(null, null)">
+  </div>
+</div>
+
+{% if featured %}
+<div class="hero-news">
+  {% if featured.image %}
+    <div class="hero-img" style="background-image:url('{{ featured.image }}');"></div>
+  {% else %}
+    <div class="hero-img placeholder">🍃</div>
+  {% endif %}
+  <div class="hero-body">
+    <span class="pill">{{ featured.category }}</span>
+    <h2><a href="{{ featured.link }}" target="_blank" rel="noopener">{{ featured.title }}</a></h2>
+    {% if featured.summary %}<p>{{ featured.summary }}…</p>{% endif %}
+    <div class="meta">{{ featured.source }} · {{ featured.time_ago }}</div>
+  </div>
+</div>
+{% endif %}
+
+<div class="news-grid" id="newsGrid">
+  {% for a in articles %}
+  <a href="{{ a.link }}" target="_blank" rel="noopener" class="news-card" data-cat="{{ a.category }}" data-title="{{ a.title|lower }}">
+    {% if a.image %}
+      <div class="thumb" style="background-image:url('{{ a.image }}');"></div>
+    {% else %}
+      <div class="thumb placeholder">🍵</div>
+    {% endif %}
+    <div class="body">
+      <span class="cat-pill">{{ a.category }}</span>
+      <h4>{{ a.title }}</h4>
+      {% if a.summary %}<p class="snippet">{{ a.summary }}…</p>{% endif %}
+      <div class="meta"><span>{{ a.source }}</span><span>{{ a.time_ago }}</span></div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+<p id="noResults" class="empty-state" style="display:none;">No headlines match that search.</p>
+
+{% else %}
+<div class="card empty-state">
+  <p>No news could be loaded right now. Please check back later.</p>
+</div>
+{% endif %}
+
+<script>
+function filterNews(cat, btnEl) {
+  if (btnEl) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+    window._activeCat = cat;
+  }
+  const activeCat = window._activeCat || 'All';
+  const query = document.getElementById('newsSearch').value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  document.querySelectorAll('.news-card').forEach(card => {
+    const matchesCat = activeCat === 'All' || card.dataset.cat === activeCat;
+    const matchesQuery = !query || card.dataset.title.includes(query);
+    const show = matchesCat && matchesQuery;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visibleCount++;
+  });
+
+  document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+</script>
+
+{% endblock %}
