@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Admin — Chai Yako{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="flash-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<div class="app-shell">
+  <aside class="sidebar" style="background: linear-gradient(180deg, #14324f, #0d2338);">
+    <div class="brand">Admin</div>
+    <a href="{{ url_for('admin.dashboard') }}" class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+      Farmers
+    </a>
+    <a href="{{ url_for('admin.logins') }}" class="nav-link {% if request.endpoint == 'admin.logins' %}active{% endif %}">
+      Login activity
+    </a>
+    <div class="sidebar-footer">
+      Signed in as <strong>{{ current_user.full_name }}</strong><br>
+      <a href="{{ url_for('admin.logout') }}" style="color:#eafcf1; text-decoration:underline;">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+</body>
+</html>

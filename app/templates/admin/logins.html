@@ -1,0 +1,38 @@
+{% extends "admin/_base.html" %}
+{% block title %}Login activity — Admin — Chai Yako{% endblock %}
+{% block content %}
+
+<div class="topbar">
+  <div class="greeting">
+    <h1>Login activity</h1>
+    <p>Most recent {{ logins|length }} attempts across all accounts.</p>
+  </div>
+</div>
+
+<div class="card">
+  {% if logins %}
+  <table>
+    <thead>
+      <tr><th>When</th><th>Farmer</th><th>Result</th><th>IP address</th><th>User agent</th></tr>
+    </thead>
+    <tbody>
+      {% for l in logins %}
+      <tr>
+        <td>{{ l.login_at.strftime("%d %b %Y, %H:%M") }}</td>
+        <td><a href="{{ url_for('admin.farmer_detail', farmer_id=l.farmer_id) }}">{{ l.farmer.full_name }}</a></td>
+        <td>
+          {% if l.success %}<span class="badge badge-good">success</span>
+          {% else %}<span class="badge badge-damaged">failed</span>{% endif %}
+        </td>
+        <td>{{ l.ip_address or "—" }}</td>
+        <td style="max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ l.user_agent or "—" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color: var(--muted);">No login activity recorded yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

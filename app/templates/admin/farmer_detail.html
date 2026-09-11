@@ -1,0 +1,140 @@
+{% extends "admin/_base.html" %}
+{% block title %}{{ farmer.full_name }} — Admin — Chai Yako{% endblock %}
+{% block content %}
+
+<div class="topbar">
+  <div class="greeting">
+    <h1>{{ farmer.full_name }}</h1>
+    <p>{{ farmer.email }} · {{ farmer.phone or "no phone on file" }} · {{ farmer.scale }} scale · joined {{ farmer.created_at.strftime("%d %b %Y") }}</p>
+  </div>
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline btn-sm">&larr; Back to farmers</a>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header"><h3>Farms</h3><span class="hint">{{ farms|length }}</span></div>
+    {% if farms %}
+    <table>
+      <thead><tr><th>Location</th><th>Farm number</th><th>Bushes</th><th>Acreage</th><th>Total kilos</th></tr></thead>
+      <tbody>
+        {% for f in farms %}
+        <tr>
+          <td>{{ f.location or "—" }}</td>
+          <td>{{ f.farm_number }}</td>
+          <td>{{ f.approx_bushes or 0 }}</td>
+          <td>{{ f.acreage or "—" }}</td>
+          <td>{{ "%.1f"|format(f.total_kilos) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--muted);">No farms registered.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Tools</h3><span class="hint">{{ tools|length }}</span></div>
+    {% if tools %}
+    <table>
+      <thead><tr><th>Item</th><th>Qty</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for t in tools %}
+        <tr>
+          <td>{{ t.name }}</td>
+          <td>{{ t.quantity }}</td>
+          <td>
+            {% if t.status == 'good' %}<span class="badge badge-good">good</span>
+            {% elif t.status == 'needs_repair' %}<span class="badge badge-repair">needs repair</span>
+            {% elif t.status == 'damaged' %}<span class="badge badge-damaged">damaged</span>
+            {% else %}<span class="badge badge-lost">{{ t.status }}</span>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--muted);">No tools logged.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header"><h3>Recent plucking records</h3><span class="hint">last {{ plucking|length }}</span></div>
+    {% if plucking %}
+    <table>
+      <thead><tr><th>Date</th><th>Farm</th><th>Kilos</th><th>Notes</th></tr></thead>
+      <tbody>
+        {% for r in plucking %}
+        <tr>
+          <td>{{ r.date.strftime("%d %b %Y") }}</td>
+          <td>{{ r.farm.location or r.farm.farm_number }}</td>
+          <td>{{ r.kilos }}</td>
+          <td>{{ r.notes or "—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--muted);">No plucking records.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Recent pruning records</h3><span class="hint">last {{ pruning|length }}</span></div>
+    {% if pruning %}
+    <table>
+      <thead><tr><th>Date</th><th>Farm</th><th>Bushes</th><th>Type</th></tr></thead>
+      <tbody>
+        {% for r in pruning %}
+        <tr>
+          <td>{{ r.date.strftime("%d %b %Y") }}</td>
+          <td>{{ r.farm.location or r.farm.farm_number }}</td>
+          <td>{{ r.bushes_pruned }}</td>
+          <td>{{ r.prune_type or "—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--muted);">No pruning records.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header"><h3>Notes</h3><span class="hint">{{ notes|length }}</span></div>
+    {% if notes %}
+      {% for n in notes %}
+      <div class="note-card">
+        <div class="note-title">{{ n.title or "Untitled" }}</div>
+        <div>{{ n.content }}</div>
+        <div class="note-date">{{ n.created_at.strftime("%d %b %Y, %H:%M") }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p style="color: var(--muted);">No notes.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Login history</h3><span class="hint">last {{ logins|length }}</span></div>
+    {% if logins %}
+      {% for l in logins %}
+      <div class="note-card">
+        <div class="note-title">
+          {% if l.success %}<span class="badge badge-good">success</span>
+          {% else %}<span class="badge badge-damaged">failed</span>{% endif %}
+        </div>
+        <div class="note-date">{{ l.login_at.strftime("%d %b %Y, %H:%M") }} · {{ l.ip_address or "unknown IP" }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+    <p style="color: var(--muted);">No login activity recorded.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin login — Chai Yako</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="flash-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+</div>
+<div class="auth-wrap" style="background: radial-gradient(circle at 20% 20%, #1c4f8a, #0d2338 65%);">
+  <div class="auth-card">
+    <h1>Admin sign in</h1>
+    <p class="subtitle">Restricted area. This page is not linked anywhere in the app.</p>
+    <form method="POST">
+      <div>
+        <label>Admin email</label>
+        <input type="email" name="email" required placeholder="admin@chaiyako.demo" autofocus>
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="justify-content:center;">Sign in</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

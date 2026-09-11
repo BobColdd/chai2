@@ -1,0 +1,94 @@
+{% extends "admin/_base.html" %}
+{% block title %}Farmers — Admin — Chai Yako{% endblock %}
+{% block content %}
+
+<div class="topbar">
+  <div class="greeting">
+    <h1>Farmers</h1>
+    <p>All self-registered farmer accounts and their activity.</p>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card stat-1">
+    <div class="label">Farmers</div>
+    <div class="value">{{ totals.farmer_count }}</div>
+  </div>
+  <div class="stat-card stat-2">
+    <div class="label">Farms</div>
+    <div class="value">{{ totals.farm_count }}</div>
+  </div>
+  <div class="stat-card stat-3">
+    <div class="label">Total kilos logged</div>
+    <div class="value">{{ "%.1f"|format(totals.kilos_total) }}</div>
+  </div>
+  <div class="stat-card stat-4">
+    <div class="label">Failed logins (all time)</div>
+    <div class="value">{{ totals.failed_logins_recent }}</div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h3>All farmers</h3>
+      <span class="hint">{{ stats|length }} account(s)</span>
+    </div>
+    {% if stats %}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Scale</th>
+          <th>Farms</th>
+          <th>Total kilos</th>
+          <th>Last login</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stats %}
+        <tr>
+          <td>{{ s.farmer.full_name }}</td>
+          <td>{{ s.farmer.email }}</td>
+          <td>{{ s.farmer.scale }}</td>
+          <td>{{ s.farm_count }}</td>
+          <td>{{ "%.1f"|format(s.total_kilos) }}</td>
+          <td>{{ s.last_login.strftime("%d %b %Y, %H:%M") if s.last_login else "Never" }}</td>
+          <td><a href="{{ url_for('admin.farmer_detail', farmer_id=s.farmer.id) }}" class="btn btn-outline btn-sm">View</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color: var(--muted);">No farmers registered yet.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>Recent login activity</h3>
+      <a href="{{ url_for('admin.logins') }}" class="hint">View all</a>
+    </div>
+    {% if recent_activity %}
+    {% for a in recent_activity %}
+    <div class="note-card">
+      <div class="note-title">
+        {{ a.farmer.full_name }}
+        {% if a.success %}
+          <span class="badge badge-good">success</span>
+        {% else %}
+          <span class="badge badge-damaged">failed</span>
+        {% endif %}
+      </div>
+      <div class="note-date">{{ a.login_at.strftime("%d %b %Y, %H:%M") }} · {{ a.ip_address or "unknown IP" }}</div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color: var(--muted);">No login activity yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
