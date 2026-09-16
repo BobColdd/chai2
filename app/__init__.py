@@ -10,7 +10,7 @@ login_manager.login_view = "auth.login"
 login_manager.login_message = "Please log in to access your farm dashboard."
 login_manager.login_message_category = "info"
 
-migrate=Migrate()
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -30,12 +30,14 @@ def create_app():
     from app.news import news_bp
     from app.chatbot import chatbot_bp
     from app.admin import admin_bp
+    from app.api import api_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(news_bp)
     app.register_blueprint(chatbot_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(api_bp)
 
     with app.app_context():
         db.create_all()
