@@ -63,7 +63,7 @@ Sitemap: {sitemap_url}
     def sitemap():
         # Public pages that Google should discover.
         pages = [
-            url_for("main.index", _external=True),
+            url_for("main.landing", _external=True),
         ]
 
         sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
