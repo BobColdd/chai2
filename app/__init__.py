@@ -1,4 +1,3 @@
-```python
 from flask import Flask, Response, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -88,4 +87,3 @@ Sitemap: {sitemap_url}
         db.create_all()
 
     return app
-```
