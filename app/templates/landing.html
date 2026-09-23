@@ -2,44 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO -->
     <title>Chai Yako — Digital Farm Records for Tea Farmers</title>
-
     <meta name="description"
           content="Chai Yako helps tea farmers manage digital farm records, daily plucking, pruning cycles, tools, purchases, and tea market information.">
-
     <meta name="robots" content="index, follow">
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://chaiyako.site/">
 
     <!-- Open Graph -->
-    <meta property="og:title"
-          content="Chai Yako — Digital Farm Records for Tea Farmers">
-
+    <meta property="og:title" content="Chai Yako — Digital Farm Records for Tea Farmers">
     <meta property="og:description"
           content="Digital farm records for tea farmers. Track plucking, pruning, tools, purchases and tea information in one place.">
-
     <meta property="og:type" content="website">
-
-    <meta property="og:url"
-          content="https://chaiyako.site/">
+    <meta property="og:url" content="https://chaiyako.site/">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
           rel="stylesheet">
-    
-    <link rel="icon" type="image/png"
-      href="{{ url_for('static', filename='images/icon.png') }}">
-    
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+
     <!-- CSS -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -47,139 +34,71 @@
 <div class="flash-wrap">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
-            <div class="flash flash-{{ category }}">
-                {{ message }}
-            </div>
+            <div class="flash flash-{{ category }}">{{ message }}</div>
         {% endfor %}
     {% endwith %}
 </div>
 
+<div class="split-landing">
 
-<div class="landing-hero">
+    <div class="split-info">
+        <div class="brand">Chai Yako</div>
 
-    <nav class="landing-nav">
+        <div class="eyebrow">Built for Kericho tea farmers</div>
+        <h1>Digital Farm Records for Tea Farmers</h1>
+        <p class="lead">
+            Chai Yako helps tea farmers move their farm records out of
+            notebooks and into a simple digital system — plucking kilos,
+            pruning cycles, tools, purchases, and farm notes, all in one place.
+        </p>
 
-        <div class="brand">
-            Chai Yako
-        </div>
-
-        <div class="links">
-
-            <a href="{{ url_for('auth.login') }}"
-               class="ghost">
-                Log in
-            </a>
-
-            <a href="{{ url_for('auth.register') }}"
-               class="solid">
-                Get started
-            </a>
-
-        </div>
-
-    </nav>
-
-
-    <div class="hero-content">
-
-        <div class="hero-text">
-
-            <div class="eyebrow">
-                Built for Kericho tea farmers
+        <div class="split-features">
+            <div class="feature-item">
+                <div>
+                    <h4>Daily plucking log</h4>
+                    <p>Record kilos plucked per day, per farm, and watch your trend line grow.</p>
+                </div>
             </div>
-
-            <h1>
-                Digital Farm Records for Tea Farmers
-            </h1>
-
-            <p>
-                Chai Yako helps tea farmers move their farm records out of
-                notebooks and into a simple digital system. Track your
-                plucking kilos, pruning cycles, tools, purchases, and farm
-                notes in one place.
-            </p>
-
-
-            <div class="hero-cta">
-
-                <a href="{{ url_for('auth.register') }}"
-                   class="btn btn-gold">
-                    Create your free account
-                </a>
-
-                <a href="{{ url_for('auth.login') }}"
-                   class="btn btn-outline"
-                   style="color:#fff; border-color: rgba(255,255,255,0.6);">
-                    I already have an account
-                </a>
-
+            <div class="feature-item">
+                <div>
+                    <h4>Pruning history</h4>
+                    <p>Log dates and number of bushes pruned so you never lose track of the cycle.</p>
+                </div>
             </div>
-
-        </div>
-
-
-        <div class="hero-visual">
-
-            <div class="feature-list">
-
-                <div class="feature-item">
-                    <div>
-                        <h4>Daily plucking log</h4>
-                        <p>
-                            Record kilos plucked per day, per farm,
-                            and watch your trend line grow.
-                        </p>
-                    </div>
+            <div class="feature-item">
+                <div>
+                    <h4>Tools &amp; purchases</h4>
+                    <p>Keep an inventory of shears, pangas, baskets and sprayers with condition status.</p>
                 </div>
-
-
-                <div class="feature-item">
-                    <div>
-                        <h4>Pruning history</h4>
-                        <p>
-                            Log dates and number of bushes pruned
-                            so you never lose track of the cycle.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="feature-item">
-                    <div>
-                        <h4>Tools & purchases</h4>
-                        <p>
-                            Keep an inventory of shears, pangas,
-                            baskets and sprayers with condition status.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="feature-item">
-                    <div>
-                        <h4>Tea news & prices</h4>
-                        <p>
-                            Stay updated with the latest Kenyan tea
-                            market and auction news.
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="feature-item">
-                    <div>
-                        <h4>Farm assistant bot</h4>
-                        <p>
-                            Ask quick questions on pruning, pests,
-                            and best practice right on your dashboard.
-                        </p>
-                    </div>
-                </div>
-
             </div>
-
+            <div class="feature-item">
+                <div>
+                    <h4>Tea news &amp; prices</h4>
+                    <p>Stay updated with the latest Kenyan tea market and auction news.</p>
+                </div>
+            </div>
         </div>
+    </div>
 
+    <div class="split-login">
+        <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+
+        <div class="auth-card">
+            <h1>Welcome back</h1>
+            <p class="subtitle">Log in to your farm dashboard.</p>
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div>
+                    <label>Email address</label>
+                    <input type="email" name="email" required placeholder="you@example.com">
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="justify-content:center;">Log in</button>
+            </form>
+            <div class="auth-foot">New here? <a href="{{ url_for('auth.register') }}">Create a farm account</a></div>
+        </div>
     </div>
 
 </div>
