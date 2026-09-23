@@ -19,6 +19,11 @@ def landing():
     return render_template("landing.html")
 
 
+@main_bp.route("/terms")
+def terms():
+    return render_template("terms.html", updated_date=date.today().strftime("%d %B %Y"))
+
+
 def _get_selected_farm():
     farm_id = request.args.get("farm_id", type=int)
     farms = current_user.farms

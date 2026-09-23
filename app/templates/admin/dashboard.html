@@ -13,6 +13,7 @@
   <div class="stat-card stat-1">
     <div class="label">Farmers</div>
     <div class="value">{{ totals.farmer_count }}</div>
+    <div class="sub">{{ totals.new_this_week }} new this week</div>
   </div>
   <div class="stat-card stat-2">
     <div class="label">Farms</div>
@@ -25,6 +26,16 @@
   <div class="stat-card stat-4">
     <div class="label">Failed logins (all time)</div>
     <div class="value">{{ totals.failed_logins_recent }}</div>
+  </div>
+  <div class="stat-card stat-1">
+    <div class="label">Small vs large scale</div>
+    <div class="value">{{ totals.small_scale }} / {{ totals.large_scale }}</div>
+    <div class="sub">small-scale / large-scale</div>
+  </div>
+  <div class="stat-card stat-2">
+    <div class="label">Terms accepted</div>
+    <div class="value">{{ totals.terms_accepted }}</div>
+    <div class="sub">of {{ totals.farmer_count }} farmer(s)</div>
   </div>
 </div>
 
@@ -43,6 +54,7 @@
           <th>Scale</th>
           <th>Farms</th>
           <th>Total kilos</th>
+          <th>Terms</th>
           <th>Last login</th>
           <th></th>
         </tr>
@@ -55,6 +67,10 @@
           <td>{{ s.farmer.scale }}</td>
           <td>{{ s.farm_count }}</td>
           <td>{{ "%.1f"|format(s.total_kilos) }}</td>
+          <td>
+            {% if s.farmer.terms_accepted %}<span class="badge badge-good">accepted</span>
+            {% else %}<span class="badge badge-lost">pending</span>{% endif %}
+          </td>
           <td>{{ s.last_login.strftime("%d %b %Y, %H:%M") if s.last_login else "Never" }}</td>
           <td><a href="{{ url_for('admin.farmer_detail', farmer_id=s.farmer.id) }}" class="btn btn-outline btn-sm">View</a></td>
         </tr>

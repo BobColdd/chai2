@@ -21,8 +21,11 @@
   {% endwith %}
 </div>
 
+<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
 <div class="app-shell">
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="brand">Chai Yako</div>
     <a href="{{ url_for('main.dashboard') }}" class="nav-link {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
       Dashboard
@@ -58,6 +61,14 @@
 </div>
 
 <script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('show');
+}
 function toggleChat() {
   document.getElementById('chatWindow').classList.toggle('open');
 }

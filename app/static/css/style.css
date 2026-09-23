@@ -42,6 +42,34 @@ p { margin: 0; }
   position: sticky;
   top: 0;
   height: 100vh;
+  transition: transform .25s ease;
+}
+
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1100;
+  background: var(--tea-dark);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 999;
 }
 
 .brand { display: flex; align-items: center; gap: 10px; padding: 6px 10px 26px; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
@@ -83,7 +111,24 @@ p { margin: 0; }
 .stat-4 { background: linear-gradient(135deg, #3a7bd5, #1c4f8a); }
 
 .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
-@media (max-width: 980px) { .grid-2 { grid-template-columns: 1fr; } .app-shell { grid-template-columns: 1fr; } .sidebar { display:none; } }
+@media (max-width: 980px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: flex; }
+  .sidebar-backdrop.show { display: block; }
+  .main-area { padding-top: 74px; }
+}
 
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .card-header h3 { font-size: 1.05rem; color: var(--tea-dark); }
@@ -146,6 +191,26 @@ tr:last-child td { border-bottom: none; }
 .auth-card form { display: flex; flex-direction: column; gap: 14px; }
 .auth-foot { text-align: center; margin-top: 16px; font-size: 0.85rem; color: var(--muted); }
 .auth-foot a { color: var(--tea-green); font-weight: 600; }
+
+.checkbox-row { display: flex; align-items: flex-start; gap: 10px; }
+.checkbox-row input[type="checkbox"] { width: auto; margin-top: 3px; accent-color: var(--tea-green); cursor: pointer; }
+.checkbox-row label { margin-bottom: 0; font-size: 0.85rem; color: var(--ink); font-weight: 400; line-height: 1.4; }
+.checkbox-row label a { color: var(--tea-green); font-weight: 600; text-decoration: underline; }
+
+/* ---------- Policy / Terms page ---------- */
+.policy-wrap { max-width: 780px; margin: 0 auto; padding: 48px 24px 80px; }
+.policy-wrap .policy-back { display: inline-block; margin-bottom: 22px; font-size: 0.85rem; color: var(--tea-green); font-weight: 600; }
+.policy-header { margin-bottom: 30px; }
+.policy-header h1 { color: var(--tea-dark); font-size: 1.9rem; margin-bottom: 8px; }
+.policy-header p { color: var(--muted); font-size: 0.9rem; }
+.policy-card { background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-soft); border: 1px solid #eef5f0; padding: 34px 38px; }
+.policy-card h2 { color: var(--tea-dark); font-size: 1.1rem; margin: 26px 0 10px; }
+.policy-card h2:first-child { margin-top: 0; }
+.policy-card p { color: var(--ink); font-size: 0.92rem; line-height: 1.7; margin-bottom: 10px; }
+.policy-card ul { margin: 0 0 10px; padding-left: 20px; color: var(--ink); font-size: 0.92rem; line-height: 1.7; }
+.policy-card li { margin-bottom: 4px; }
+.policy-note { margin-top: 26px; padding: 14px 16px; background: var(--tea-pale); border-radius: 12px; font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 600px) { .policy-card { padding: 26px 22px; } }
 
 /* ---------- Landing ---------- */
 .landing-hero { min-height: 100vh; background: linear-gradient(160deg, #0d3b24 0%, #145c34 45%, #1e8a4c 100%); color: #fff; display: flex; flex-direction: column; }

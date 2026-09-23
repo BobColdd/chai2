@@ -20,8 +20,11 @@
   {% endwith %}
 </div>
 
+<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
 <div class="app-shell">
-  <aside class="sidebar" style="background: linear-gradient(180deg, #14324f, #0d2338);">
+  <aside class="sidebar" id="sidebar" style="background: linear-gradient(180deg, #14324f, #0d2338);">
     <div class="brand">Admin</div>
     <a href="{{ url_for('admin.dashboard') }}" class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
       Farmers
@@ -40,5 +43,17 @@
   </main>
 </div>
 
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('show');
+}
+</script>
+
+{% block scripts %}{% endblock %}
 </body>
 </html>

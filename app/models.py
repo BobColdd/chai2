@@ -14,6 +14,8 @@ class Farmer(UserMixin, db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     scale = db.Column(db.String(20), default="small")  # small_scale / large_scale
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
+    terms_accepted = db.Column(db.Boolean, default=False, nullable=False)
+    terms_accepted_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     farms = db.relationship("Farm", backref="owner", lazy=True, cascade="all, delete-orphan")

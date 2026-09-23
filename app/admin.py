@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from functools import wraps
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
@@ -89,11 +90,17 @@ def dashboard():
                         .order_by(LoginActivity.login_at.desc())
                         .limit(10).all())
 
+    week_ago = datetime.utcnow() - timedelta(days=7)
+
     totals = {
         "farmer_count": len(farmers),
         "farm_count": sum(s["farm_count"] for s in stats),
         "kilos_total": sum(s["total_kilos"] for s in stats),
         "failed_logins_recent": LoginActivity.query.filter_by(success=False).count(),
+        "new_this_week": sum(1 for f in farmers if f.created_at and f.created_at >= week_ago),
+        "small_scale": sum(1 for f in farmers if f.scale == "small"),
+        "large_scale": sum(1 for f in farmers if f.scale == "large"),
+        "terms_accepted": sum(1 for f in farmers if f.terms_accepted),
     }
 
     return render_template("admin/dashboard.html", stats=stats,

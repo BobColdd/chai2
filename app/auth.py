@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
@@ -21,6 +23,7 @@ def register():
 
         farm_numbers_raw = request.form.get("farm_numbers", "").strip()
         farm_numbers = [f.strip() for f in farm_numbers_raw.split(",") if f.strip()]
+        terms_accepted = bool(request.form.get("terms"))
 
         if not full_name or not email or not password:
             flash("Please fill in your name, email and password.", "error")
@@ -38,7 +41,14 @@ def register():
             flash("Please add at least one farm number.", "error")
             return render_template("register.html")
 
-        farmer = Farmer(full_name=full_name, email=email, phone=phone, scale=scale)
+        if not terms_accepted:
+            flash("You must agree to the Terms & Conditions to create an account.", "error")
+            return render_template("register.html")
+
+        farmer = Farmer(
+            full_name=full_name, email=email, phone=phone, scale=scale,
+            terms_accepted=True, terms_accepted_at=datetime.utcnow(),
+        )
         farmer.set_password(password)
         db.session.add(farmer)
         db.session.flush()

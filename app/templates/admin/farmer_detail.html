@@ -5,7 +5,9 @@
 <div class="topbar">
   <div class="greeting">
     <h1>{{ farmer.full_name }}</h1>
-    <p>{{ farmer.email }} · {{ farmer.phone or "no phone on file" }} · {{ farmer.scale }} scale · joined {{ farmer.created_at.strftime("%d %b %Y") }}</p>
+    <p>{{ farmer.email }} · {{ farmer.phone or "no phone on file" }} · {{ farmer.scale }} scale · joined {{ farmer.created_at.strftime("%d %b %Y") }} ·
+      {% if farmer.terms_accepted %}<span class="badge badge-good">terms accepted</span>{% else %}<span class="badge badge-lost">terms pending</span>{% endif %}
+    </p>
   </div>
   <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline btn-sm">&larr; Back to farmers</a>
 </div>
