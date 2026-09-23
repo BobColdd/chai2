@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin login — Chai Yako</title>
+<title>Log in — Chai Yako</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -16,22 +16,46 @@
     {% endfor %}
   {% endwith %}
 </div>
-<div class="auth-wrap" style="background: radial-gradient(rgb(11, 43, 11));">
-  <div class="auth-card">
-    <h1>Admin sign in</h1>
-    <p class="subtitle">Restricted area. This page is not linked anywhere in the app.</p>
+
+<div class="minimal-login-page">
+  <div class="minimal-login">
+    <div class="eyebrow">Chai Yako</div>
+    <h1>Login</h1>
     <form method="POST">
       <div>
-        <label>Admin email</label>
-        <input type="email" name="email" required placeholder="admin@chaiyako.demo" autofocus>
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
       </div>
       <div>
-        <label>Password</label>
-        <input type="password" name="password" required>
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="password" name="password" required>
+          <button type="button" class="toggle-eye" onclick="toggleLoginPassword()" aria-label="Show password">
+            <svg id="loginEyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary" style="justify-content:center;">Sign in</button>
+      <button type="submit">Login</button>
     </form>
+    <div class="auth-foot">New here? <a href="{{ url_for('auth.register') }}">Create a farm account</a></div>
   </div>
 </div>
+
+<script>
+function toggleLoginPassword() {
+  const input = document.getElementById('password');
+  const icon = document.getElementById('loginEyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.6 18.6 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.6 18.6 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+  } else {
+    input.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle>';
+  }
+}
+</script>
 </body>
 </html>
