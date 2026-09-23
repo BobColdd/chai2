@@ -55,13 +55,31 @@ p { margin: 0; }
   position: absolute; top: 24px; right: 28px; font-size: 0.78rem; font-weight: 600; color: var(--muted);
 }
 .split-login .admin-link:hover { color: var(--tea-dark); }
-.split-login .auth-card { box-shadow: none; border: 1px solid #eef5f0; }
 
 @media (max-width: 860px) {
   .split-landing { flex-direction: column; }
   .split-info { padding: 44px 6% 36px; }
   .split-login { padding: 36px 24px 48px; }
 }
+
+/* ---------- Minimal login (plain, no card, eye-toggle password) ---------- */
+.minimal-login-page { min-height: 100vh; background: #fff; display: flex; align-items: center; padding: 60px 8%; }
+.minimal-login { max-width: 340px; width: 100%; }
+.minimal-login .eyebrow { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; }
+.minimal-login h1 { font-size: 1.9rem; font-weight: 700; color: var(--ink); margin-bottom: 30px; }
+.minimal-login form { display: flex; flex-direction: column; }
+.minimal-login label { font-size: 0.84rem; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.minimal-login input { width: 100%; padding: 12px 14px; border: 1.5px solid #d8dee0; border-radius: 10px; font-size: 0.95rem; margin-bottom: 20px; background: #fff; font-family: inherit; }
+.minimal-login input:focus { outline: none; border-color: var(--tea-mid); }
+.minimal-login .password-wrap { position: relative; }
+.minimal-login .password-wrap input { padding-right: 46px; }
+.minimal-login .toggle-eye { position: absolute; right: 12px; top: 12px; background: none; border: none; padding: 4px; cursor: pointer; color: var(--muted); line-height: 0; }
+.minimal-login .toggle-eye:hover { color: var(--ink); }
+.minimal-login button[type="submit"] { width: 100%; padding: 14px; background: var(--ink); color: #fff; border: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; font-family: inherit; margin-top: 4px; }
+.minimal-login button[type="submit"]:hover { background: #000; }
+.minimal-login .auth-foot { margin-top: 24px; font-size: 0.85rem; color: var(--muted); text-align: left; }
+.minimal-login .auth-foot a { color: var(--tea-green); font-weight: 600; }
+@media (max-width: 480px) { .minimal-login-page { padding: 40px 7%; } }
 
 /* ---------- Layout ---------- */
 .app-shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
