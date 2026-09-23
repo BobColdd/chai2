@@ -11,6 +11,8 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
+        if getattr(current_user, "is_admin", False):
+            return redirect(url_for("admin.dashboard"))
         return redirect(url_for("main.dashboard"))
 
     if request.method == "POST":
@@ -67,6 +69,8 @@ def register():
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
+        if getattr(current_user, "is_admin", False):
+            return redirect(url_for("admin.dashboard"))
         return redirect(url_for("main.dashboard"))
 
     if request.method == "POST":
@@ -74,7 +78,9 @@ def login():
         password = request.form.get("password", "")
         farmer = Farmer.query.filter_by(email=email).first()
 
-        success = bool(farmer and farmer.check_password(password))
+        password_ok = bool(farmer and farmer.check_password(password))
+        success = bool(password_ok and not farmer.is_admin)
+
         if farmer:
             db.session.add(LoginActivity(
                 farmer_id=farmer.id,
@@ -89,7 +95,10 @@ def login():
             next_page = request.args.get("next")
             return redirect(next_page or url_for("main.dashboard"))
 
-        flash("Invalid email or password.", "error")
+        if password_ok and farmer.is_admin:
+            flash("Admin accounts must sign in through the admin portal.", "error")
+        else:
+            flash("Invalid email or password.", "error")
 
     return render_template("login.html")
 
